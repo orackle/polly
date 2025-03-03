@@ -1,4 +1,4 @@
-# WordPress Scraper
+# Polly novel Scraper
 
 A modern web scraping tool to extract chapter content from WordPress-based websites. The tool automatically follows "Next Chapter" links and compiles all content into a single HTML file for easy reading and offline access. Features a sleek UI with real-time status updates and a spinner during the scraping process.
 
