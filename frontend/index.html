@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress Scraper</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: rgba(210, 238, 130,0.8);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5rem;
+            border-radius: 15px;
+            border-block-color: black;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            color: slategray;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: slategray;
+            font-size: 1rem;
+        }
+        input[type="text"]::placeholder {
+            color: slategray;
+        }
+        button {
+            padding: 12px 24px;
+            background: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #ff3b2f;
+        }
+        a {
+            color: #ff6f61;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Spinner Styles */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #ff6f61;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none; /* Hidden by default */
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Status Message */
+        .status {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: slategray;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐻Polly - Novel Scraper</h1>
+        <form id="scraper-form" method="POST">
+            <input type="text" id="start_url" name="start_url" placeholder="Enter Starting Chapter URL" required>
+            <input type="text" id="output_file" name="output_file" placeholder="Enter Output File Name" required>
+            <button type="submit">Start Scraping</button>
+        </form>
+        <!-- Spinner -->
+        <div class="spinner" id="spinner"></div>
+        <!-- Status Message -->
+        <div class="status" id="status"></div>
+    </div>
+
+    <script>
+        // JavaScript to handle form submission and show spinner
+        document.getElementById('scraper-form').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Show spinner and status
+            document.getElementById('spinner').style.display = 'block';
+            document.getElementById('status').textContent = 'Scraping in progress...';
+
+            // Submit form data via Fetch API
+            fetch('/', {
+                method: 'POST',
+                body: new FormData(this),
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Hide spinner
+                document.getElementById('spinner').style.display = 'none';
+                // Update status
+                document.getElementById('status').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('spinner').style.display = 'none';
+                document.getElementById('status').textContent = 'An error occurred. Please try again.';
+            });
+        });
+    </script>
+</body>
+</html>
